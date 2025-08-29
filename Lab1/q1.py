@@ -118,4 +118,30 @@ if __name__ == "__main__":
     e = c.encrypt()
     d = c.decrypt()
     print(f"{e}\n{d}")
+
     assert d == m
+
+
+
+
+
+
+from Crypto.Cipher import DES
+from Crypto.Util.Padding import pad, unpad
+
+# Message and key
+message = b"Confidential Data"
+key = b"A1B2C3D4"  # must be 8 bytes for DES
+block_size = 8     # DES block size
+
+# Create cipher object in ECB mode (simplest demo)
+cipher = DES.new(key, DES.MODE_ECB)
+
+# Encrypt (with padding)
+ciphertext = cipher.encrypt(pad(message, block_size))
+print("Ciphertext (hex):", ciphertext.hex())
+
+# Decrypt
+decipher = DES.new(key, DES.MODE_ECB)
+plaintext = unpad(decipher.decrypt(ciphertext), block_size)
+print("Decrypted message:", plaintext.decode())
